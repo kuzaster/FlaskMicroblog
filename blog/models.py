@@ -45,7 +45,7 @@ class Comments(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     title = db.Column(db.String(64))
-    content = db.Column(db.String(200))
+    content = db.Column(db.String(1000))
     publication_datetime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
