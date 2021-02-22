@@ -47,7 +47,7 @@ class EditProfileForm(FlaskForm):
 
 class CreatePostCommentForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
-    content = TextAreaField("Content", validators=[Length(min=0, max=2000)])
+    content = TextAreaField("Content", validators=[Length(min=0, max=2000), DataRequired()])
     submit = SubmitField("Submit")
 
 
