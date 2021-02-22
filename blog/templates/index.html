@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    {% if current_user.username %}
+        <h1>Hello, {{ current_user.username }}!</h1>
+    {% else %}
+        <h1>Hello!</h1>
+    {% endif %}
+    {% if posts %}
+        {% for post in posts %}
+        <div>
+            <p><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a> by {{ post.author.username }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>There is no posts yet</p>
+    {% endif %}
+{% endblock %}

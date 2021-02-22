@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>{{ post.title }} by {{ post.author.username }}</h1>
+    <p>Last modified in {{ post.publication_datetime.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+    {% if post.author.username == current_user.username %}
+        <form><button formaction="{{ url_for('edit_post', post_id=post.id) }}">Edit post</button></form>
+    {% endif %}
+    <hr>
+    <p>{{ post.content }}</p>
+    <hr>
+    <h3>Comments:</h3>
+    <h4>Leave your comment here:</h4>
+    {% include 'create_post_comment.html' %}
+    <br>
+    {% for comment in comments %}
+        <p><b>{{ comment.author.username }}:</b></p>
+        <p>{{ comment.title }}</p>
+        <p>{{ comment.content }}</p>
+        <p>{{ comment.publication_datetime.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+        {% if comment.author.username == current_user.username %}
+            <form><button formaction="{{ url_for('edit_comment', comment_id=comment.id) }}">Edit comment</button></form>
+            <br>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
