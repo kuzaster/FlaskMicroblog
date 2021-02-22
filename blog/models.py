@@ -32,7 +32,7 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     title = db.Column(db.String(64))
-    content = db.Column(db.Text(2000))
+    content = db.Column(db.Text())
     publication_datetime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     comments = db.relationship("Comments", backref="post", lazy="dynamic", cascade="all,delete")
 
@@ -45,7 +45,7 @@ class Comments(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     title = db.Column(db.String(64))
-    content = db.Column(db.Text(1000))
+    content = db.Column(db.Text())
     publication_datetime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
