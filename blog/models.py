@@ -1,8 +1,9 @@
 from datetime import datetime
-from blog import login
-from blog import db
+
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from blog import db, login
 
 
 @login.user_loader
@@ -15,8 +16,12 @@ class Users(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship("Posts", backref='author', lazy='dynamic', cascade="all,delete")
-    comments = db.relationship("Comments", backref="author", lazy="dynamic", cascade="all,delete")
+    posts = db.relationship(
+        "Posts", backref="author", lazy="dynamic", cascade="all,delete"
+    )
+    comments = db.relationship(
+        "Comments", backref="author", lazy="dynamic", cascade="all,delete"
+    )
 
     def __repr__(self):
         return f"<User {self.username}>"
@@ -30,11 +35,13 @@ class Users(UserMixin, db.Model):
 
 class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     title = db.Column(db.String(64))
     content = db.Column(db.Text())
     publication_datetime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    comments = db.relationship("Comments", backref="post", lazy="dynamic", cascade="all,delete")
+    comments = db.relationship(
+        "Comments", backref="post", lazy="dynamic", cascade="all,delete"
+    )
 
     def __repr__(self):
         return f"<Post {self.title}>"
@@ -42,12 +49,11 @@ class Posts(db.Model):
 
 class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     title = db.Column(db.String(64))
     content = db.Column(db.Text())
     publication_datetime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
         return f"<Comment {self.title}>"
-
