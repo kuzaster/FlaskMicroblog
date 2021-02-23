@@ -1,4 +1,4 @@
-# Приложение работает по адресу `https://liis-microblog.herokuapp.com/index`
+## Приложение работает по адресу https://liis-microblog.herokuapp.com/index
 
 ## Неавторизаванным пользователям возможно следущее:
 
